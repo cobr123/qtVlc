@@ -13,10 +13,8 @@ LIBS += -I"C:\Users\rtabulov\qt\qtVlc\vlcSrc\include"
 LIBS += -L"C:\Users\rtabulov\qt\qtVlc\vlcBin" #if you are at windows os
 LIBS += -llibvlc
 
-SOURCES += main.cpp \
-    vlc_on_qt.cpp
+SOURCES += main.cpp
 
-HEADERS  += \
-    vlc_on_qt.h
+HEADERS  +=
 
 FORMS    +=

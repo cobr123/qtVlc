@@ -8,6 +8,7 @@
 #include <QSlider>
 #include <QTimer>
 #include <QFrame>
+#include <QtCore/QDebug>
 
 Player::Player()
 : QWidget()
@@ -18,7 +19,8 @@ Player::Player()
               "--ignore-config", /* Don't use VLC's config */
               "--extraintf=logger", //log anything
               "--verbose=2", //be much more verbose then normal for debugging purpose
-              "--plugin-path=C:\\vlc-0.9.9-win32\\plugins\\" };
+              "--plugin-path=C:\\Users\\rtabulov\\qt\\qtVlc\\vlcBin\\plugins\\"
+    };
 
 #ifdef Q_WS_X11
     QX11EmbedContainer *_videoWidget;
@@ -48,11 +50,20 @@ Player::Player()
     //libvlc_exception_init(&_vlcexcep);
 
     //create a new libvlc instance
-    _vlcinstance=libvlc_new(sizeof(vlc_args) / sizeof(vlc_args[0]), vlc_args);  //tricky calculation of the char space used
+    //_vlcinstance=libvlc_new(sizeof(vlc_args) / sizeof(vlc_args[0]), vlc_args);  //tricky calculation of the char space used
+    _vlcinstance=libvlc_new(0, NULL);  //tricky calculation of the char space used
     //raise (&_vlcexcep);
 
+    // Check if instance is running
+    if(_vlcinstance) {
+            qDebug() << "libvlc-qt initialised";
+    } else {
+            qDebug() << "libvlc-qt Error: libvlc failed to load!";
+            exit(-100);
+    }
+
     // Create a media player playing environement
-    _m = libvlc_media_new_path (_vlcinstance, "http://mycool.movie.com/test.mov");
+    _m = libvlc_media_new_path (_vlcinstance, "sndAuthDeny.wav");
     //raise (&_vlcexcep);
 
     //connect the two sliders to the corresponding slots (uses Qt's signal / slots technology)
